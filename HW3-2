@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+int main() {
+    int degree, di;
+    float a, b, c, x, dx, num1, num2, anal1, anal2, d, e, f, N, anal3, anal4, num3, num4;// anal2 까지 미분 변수
+    cout << "미분(1) or 적분(2) : " << endl;
+    cin >> di;
+    cout << "1차식이면 (1) 2차식이면 (2): " << endl;
+    cin >> degree;
+    switch (di) {
+    case 1: //미분
+        if (degree == 1) {
+            cout << "a :" << endl;
+            cin >> a;
+            cout << "b :" << endl;
+            cin >> b;
+            cout << "x :" << endl;
+            cin >> x;
+            cout << "dx :" << endl;
+            cin >> dx;
+            num1 = 0;
+            anal1 = 0;
+            anal1 = a;
+            num1 = (a * (x + dx) + b - (a * x + b)) / dx;
+        }
+        else if (degree == 2) {
+            cout << "a :" << endl;
+            cin >> a;
+            cout << "b :" << endl;
+            cin >> b;
+            cout << "c :" << endl;
+            cin >> c;
+            cout << "x :" << endl;
+            cin >> x;
+            cout << "dx :" << endl;
+            cin >> dx;
+            num2 = 0;
+            anal2 = 0;
+            anal2 = 2 * a * x + b;
+            num2 = (a * pow(x + dx, 2) + b * (x + dx) + c - (a * pow(x, 2) + b * x + c)) / dx;
+        }
+        break;
+    case 2: //적분 
+        cout << "적분시작구간 e : " << endl;
+        cin >> e;
+        cout << "적분끝구간 f : " << endl;
+        cin >> f;
+        cout << "N :" << endl;
+        cin >> N;
+
+        if (degree == 1) {
+            cout << "a :" << endl;
+            cin >> a;
+            cout << "b :" << endl;
+            cin >> b;
+            anal3 = 0;
+            anal3 = 0.5 * a * pow(f, 2) + b * f - (0.5 * a * pow(e, 2) + b * e); //1차 함수적분
+            dx = (f - e) / N;
+            num3 = 0;
+            for (int i = 0; i < N; ++i) { //1차 함수적분
+                num3 += (a * (e + i * dx) + b) * dx;
+            }
+        }
+        else if (degree == 2) {
+            cout << "a :" << endl;
+            cin >> a;
+            cout << "b :" << endl;
+            cin >> b;
+            cout << "c :" << endl;
+            cin >> c;
+            anal4 = 0;
+            anal4 = a * pow(f, 3) * (1 / 3) + 0.5 * b * pow(f, 2) + c * f - (a * pow(e, 3) * (1 / 3) + 0.5 * b * pow(e, 2) + c * e);//2차 함수적분
+            dx = (f - e) / N;
+            num4 = 0;
+
+            for (int i = 0; i < N; ++i) { //2차 함수적분
+                num4 += (a * pow((e + i * dx), 2) + b * (e + i * dx) + c) * dx;
+            }
+            break;
+
+        }
+    }
+    if (di == 1 && degree == 1) {//1차함수 미분
+        cout << "derivative of " << a << "x +" << b << ", " << "result : " << a << endl;
+        cout << "원래값: " << anal1 << " 근사값: " << num1 << endl;
+        cout << "오차율: " << abs((num1 - anal1) * 100 / anal1) << "%" << endl;
+    }
+    else if (di == 1 && degree == 2) {//2차함수 미분
+        cout << "derivative of " << a << "x^2 +" << b << "x +" << c << ", " << "result : " << 2 * a << "x +" << b << endl;
+        cout << "원래값: " << anal2 << " 근사값: " << num2 << endl;
+        cout << "오차율: " << abs((num2 - anal2) * 100 / anal2) << "%" << endl;
+    }
+
+
+    else if (di == 2 && degree == 1) {//1차함수 적분
+        cout << "integral " << a << "x + " << b << " " << "from " << e << " to " << f << endl;
+        cout << "원래값: " << anal3 << " 근사값: " << num3 << endl;
+        cout << "오차율: " << abs((anal3 - num3) * 100 / anal3) << "%" << endl;
+    }
+    else if (di == 2 && degree == 2) {//2차함수 적분
+        cout << "integral " << a << "x^2 + " << b << "x + " << "c " << "from " << e << " to " << f << endl;
+        cout << "원래값: " << anal4 << " 근사값: " << num4 << endl;
+        cout << "오차율: " << abs((anal4 - num4) * 100 / anal4) << "%" << endl;
+    }
+    else {//오류
+        cout << "Error : please input vaild value" << endl;
+    }
+
+
+
+    return 0;
+}
