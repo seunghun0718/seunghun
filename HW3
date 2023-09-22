@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+int main() {
+   int sc, di;
+   float a, b, c, d, x, dx, N, cos1, sin1, num1, num2, cos2, sin2; //asinbx or acosbx
+   cout << "미분(1) or 적분(2) : " << endl;
+   cin >> di;
+   cout << "cos (1) or sin (2) : " << endl;
+   cin >> sc;
+   cout << "a :" << endl;
+   cin >> a;
+   cout << "b :" << endl;
+   cin >> b;
+   switch (di) {
+   case 1: // 미분
+      cout << "x :" << endl;
+      cin >> x;
+      cout << "dx :" << endl;
+      cin >> dx;
+      cos1 = a * b * cos(b * x); //사인미분
+      sin1 = -a * b * sin(b * x); //코사인미분
+      num1 = a * (cos(b * (x + dx)) - cos(b * x)) / dx;
+      num2 = a * (sin(b * (x + dx)) - sin(b * x)) / dx;
+      break;
+   case 2: 
+      cout << "적분시작구간 c : " << endl;
+      cin >> c;
+      cout << "적분끝구간 d : " << endl;
+      cin >> d;
+      cout << "N :" << endl;
+      cin >> N;
+      cos2 = -a*(cos(b * d) - cos(b * c)) / b;    //사인적분
+      sin2 = a*(sin(b * d) - sin(b * c)) / b;     //코사인 적분
+      dx = (d - c) / N;
+      num1 = 0;
+      num2 = 0;
+      for (int i = 0; i < N; ++i) { //코사인적분
+         num1 += a * cos(b * (c + i * dx)) * dx;
+      }
+      for (int i = 0; i < N; ++i) { //사인적분
+         num2 += a * sin(b * (c + i * dx)) * dx;
+      }
+      break;
+   }
+
+
+   if (di == 1 && sc == 1) {//cos 미분
+         cout << "derivative of " << a << "cos" << b << "x\n" << "result : " << -a * b << "sin" << b << "x\n";
+         cout << "원래값: " << sin1 << " 근사값: " << num1 << endl;
+         cout << "오차율: " << abs((num1 - sin1) * 100 / sin1) << "%" << endl;
+      }
+   else if (di == 1 && sc == 2) {//sin 미분
+         cout << "derivative of " << a << "sin" << b << "x\n" << "result : " << a * b << "cos" << b << "x\n";
+         cout << "원래값: " << cos1 << " 근사값: " << num2 << endl;
+         cout << "오차율: " << abs((cos1 - num2) * 100 / cos1) << "%" << endl;
+      }
+
+
+   else if (di == 2 && sc == 1) {//cos 적분
+      cout << "integral " << a << "cos" << b << "x " << "from " << c << " to " << d << endl;
+      cout << "원래값: " << sin2 << " 근사값: " << num1 << endl;
+         cout << "오차율: " << abs((sin2 - num1) * 100 / sin2) << "%" << endl;
+      }
+   else if (di == 2 && sc == 2) {//sin 적분
+         cout << "integral " << a << "sin" << b << "x " << "from " << c << " to " << d <<endl;
+         cout << "원래값: " << cos2 << " 근사값: " << num2 << endl;
+         cout << "오차율: " << abs((cos2 - num2) * 100 / cos2) << "%" << endl;
+      }
+   else {//오류
+         cout << "Error : please input vaild value" << endl;
+      }
+
+
+
+   return 0;
+}
